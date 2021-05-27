@@ -1,7 +1,7 @@
 {
-  "name": "mavon-editor",
-  "version": "2.9.1",
-  "description": "Vue markdown editor",
+  "name": "novam-editor",
+  "version": "3.0.0",
+  "description": "Non-sucking Vue markdown editor",
   "main": "dist/mavon-editor.js",
   "types": "./mavon-editor.d.ts",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hinesboy/mavonEditor.git"
+    "url": "git+https://github.com/t123yh/novamEditor.git"
   },
   "keywords": [
     "javascript",
@@ -26,9 +26,9 @@
   "author": "hinesboy",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hinesboy/mavonEditor/issues"
+    "url": "https://github.com/t123yh/novamEditor/issues"
   },
-  "homepage": "https://github.com/hinesboy/mavonEditor#readme",
+  "homepage": "https://github.com/t123yh/novamEditor#readme",
   "devDependencies": {
     "auto-textarea": "^1.4.0",
     "autoprefixer": "^8.3.0",
