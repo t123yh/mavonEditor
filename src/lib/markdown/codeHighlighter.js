@@ -1,5 +1,4 @@
 import Prism from "prismjs";
-import cssPath from "./prism-ghcolors.css";
 
 function normalizeCode(code) {
   return code.split("\r").join("");
@@ -10,11 +9,6 @@ function escapeHtml(text) {
   return text;
 }
 
-const cssLinkTag = document.createElement("link");
-cssLinkTag.rel = "stylesheet";
-cssLinkTag.href = cssPath;
-document.head.appendChild(cssLinkTag);
-
 export default function highlight(code, language) {
   code = normalizeCode(code);
 
@@ -22,7 +16,6 @@ export default function highlight(code, language) {
     if (language) {
       try {
         const name = language.trim().toLowerCase();
-        console.log(Prism.languages)
         if (name in Prism.languages) {
           return Prism.highlight(code, Prism.languages[name], name);
         }

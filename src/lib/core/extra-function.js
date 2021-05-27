@@ -286,7 +286,6 @@ export const insertTab = ($vm, tab) => {
 // shift + tab
 export const unInsertTab = ($vm, tab) => {
     let regTab = new RegExp(tab ? `\\s{${tab}}` : '\t')
-    console.log(`regTab:`, regTab)
     let obj = $vm.getTextareaDom();
     if (isExistSelectionObj(obj)) {
         var startPos = obj.selectionStart;

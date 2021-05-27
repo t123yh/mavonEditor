@@ -86,7 +86,32 @@ function renderMarkdown(
     return [renderer.render(text), highlightPlaceholders, mathPlaceholders, findPlaceholderElement];
 }
 
-export default function renderMarkdownHtml(value, noSanitize) {
+function renderMarkdownPreview(value) {
+    const [markdownResult, highlightPlaceholders, mathPlaceholders, findPlaceholderElement] = renderMarkdown(value);
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = sanitize(markdownResult);
+    highlightPlaceholders.forEach(item => {
+        const element = findPlaceholderElement(wrapper, item.id);
+        element.outerHTML = "[代码]";
+    });
+
+    mathPlaceholders.forEach(item => {
+        const element = findPlaceholderElement(wrapper, item.id);
+        element.outerHTML = "[公式]";
+    });
+
+    for (const pre of wrapper.querySelectorAll("img")) {
+        pre.replaceWith("[图片]");
+    }
+
+    for (const tab of wrapper.querySelectorAll("table")) {
+        tab.replaceWith("[表格]");
+    }
+
+    return wrapper.innerText;
+}
+
+function renderMarkdownHtml(value, noSanitize) {
     const [markdownResult, highlightPlaceholders, mathPlaceholders, findPlaceholderElement] = renderMarkdown(value);
     const wrapper = document.createElement("div");
     wrapper.innerHTML = noSanitize ? markdownResult : sanitize(markdownResult);
@@ -109,3 +134,5 @@ export default function renderMarkdownHtml(value, noSanitize) {
 
     return wrapper.innerHTML;
 }
+
+export {renderMarkdownHtml, renderMarkdownPreview};

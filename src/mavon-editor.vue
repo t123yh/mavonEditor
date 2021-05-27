@@ -111,11 +111,11 @@ import {stopEvent} from './lib/util.js'
 import {toolbar_left_click, toolbar_left_addlink} from './lib/toolbar_left_click.js'
 import {toolbar_right_click} from './lib/toolbar_right_click.js'
 import {CONFIG} from './lib/config.js'
-import renderMarkdownHtml from './lib/markdown/markdown'
+import {renderMarkdownHtml} from './lib/markdown/markdown'
+import "./lib/font/css/fontello.css"
 
 import md_toolbar_left from './components/md-toolbar-left.vue'
 import md_toolbar_right from './components/md-toolbar-right.vue'
-import "./lib/font/css/fontello.css"
 export default {
     props: {
         scrollStyle: {  // 是否渲染滚动条样式(webkit)
@@ -190,12 +190,6 @@ export default {
             type: Object,
             default() {
                 return CONFIG.toolbars
-            }
-        },
-        xssOptions: { // 工具栏
-            type: Object,
-            default() {
-                return null
             }
         },
         codeStyle: { // <code></code> 样式
@@ -604,13 +598,6 @@ export default {
             this.iRender();
         },
         value: function (val, oldVal) {
-            // Escaping all XSS characters
-            //         escapeHtml (html) {
-            //             return html
-            //         }
-            if (this.xssOptions) {
-                val = xss(val, this.xssOptions);
-            }
 
             if (val !== this.d_value) {
                 this.d_value = val
@@ -656,9 +643,10 @@ export default {
     @import "lib/css/scroll.styl"
     @import "lib/css/mavon-editor.styl"
 </style>
-<style src="./lib/css/md.css"></style>
-<style src="./lib/css/github-markdown.css"></style>
 <style lang="css" scoped>
+    @import "lib/css/md.css";
+    @import "lib/css/github-markdown.css";
+    @import "lib/css/prism-ghcolors.css";
     .auto-textarea-wrapper {
         height: 100%;
     }

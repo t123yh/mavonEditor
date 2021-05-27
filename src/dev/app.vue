@@ -159,12 +159,10 @@
                     navigation: true // 导航目录
                 },
                 image_filter: function($files) {
-                    console.log('image_filter files:', $files);
                     // console.log('here for you', $files);
                     return true;
                 },
                 imageClick: function (file) {
-                    console.log(file);
                 },
                 imgName: ''
             }
@@ -191,17 +189,14 @@
                 this.$refs.md.$emptyHistory()
             },
             $click(val) {
-                console.log(val);
             },
             imgreplace($e) {
-                console.log('here');
                 this.$refs.md.$imglst2Url([
                     [0, 'https://raw.githubusercontent.com/hinesboy/mavonEditor/master/img/cn/cn-common.png'],
                     [1, 'https://raw.githubusercontent.com/hinesboy/mavonEditor/master/img/cn/cn-common.png']
                 ]);
             },
             uploadimg($e) {
-                console.log(this.img_file);
                 for (var _img in this.img_file) {
                     this.$refs.md.$img2Url(_img, 'https://raw.githubusercontent.com/hinesboy/mavonEditor/master/img/cn/cn-common.png')
                 }
@@ -216,11 +211,9 @@
                     data: formdata,
                     headers: {'Content-Type': 'multipart/form-data'},
                 }).then((res) => {
-                    console.log(res);
                 }) */
             },
             $imgAdd(pos, $file) {
-                console.log('imgAdd', pos, $file);
                 this.img_file[pos] = $file;
                 // console.log(this.$refs.md.$refs.toolbar_left.$imgDelByFilename(pos));
                 // console.log(this.$refs.md.$refs.toolbar_left.$imgAddByFilename('./test', $file))
@@ -230,7 +223,6 @@
                 // this.$refs.md.$imgUpdateByUrl(pos, 'http://pic.58pic.com/58pic/13/46/50/61758PICWZY_1024.jpg');
             },
             $imgDel(pos) {
-                console.log('imgDel', pos);
                 delete this.img_file[pos];
             },
             sizeToStatus () {
@@ -249,7 +241,6 @@
                 alert('save two')
             },
             change (val, render) {
-                console.log(val)
             },
             opchange (event) {
                 this.d_language = event.target.value;
@@ -260,10 +251,8 @@
                 this.help2 = CONFIG[`help_${this.d_language}`]
             },
             $subfieldtoggle(flag , value) {
-                console.log('sufield toggle' + flag)
             },
             $previewtoggle(flag , value) {
-                console.log('preview toggle' + flag)
             },
             imgdelete() {
                 var md = this.$refs.md;

@@ -1,9 +1,9 @@
 <template>
-    <div v-html="htmlContent"></div>
+    <div v-html="htmlContent" class="markdown-body"></div>
 </template>
 
 <script>
-import renderMarkdownHtml from './markdown';
+import {renderMarkdownHtml} from './lib/markdown/markdown';
 
 export default {
     props: {
@@ -24,3 +24,9 @@ export default {
     }
 }
 </script>
+
+<style lang="css" scoped>
+    @import "lib/css/md.css";
+    @import "lib/css/github-markdown.css";
+    @import "lib/css/prism-ghcolors.css";
+</style>
