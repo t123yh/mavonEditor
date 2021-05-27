@@ -38,7 +38,7 @@
             <div :class="{'single-show': (!s_subfield && s_preview_switch) || (!s_subfield && s_html_code)}"
                  v-show="s_preview_switch || s_html_code" class="v-note-show">
                 <div ref="vShowContent" v-html="d_render" v-show="!s_html_code"
-                     :class="{'scroll-style': s_scrollStyle, 'scroll-style-border-radius': s_scrollStyle}" class="v-show-content"
+                     :class="{'scroll-style': s_scrollStyle, 'scroll-style-border-radius': s_scrollStyle}" class="v-show-content markdown-body"
                      :style="{'background-color': previewBackground}">
                 </div>
                 <div v-show="s_html_code" :class="{'scroll-style': s_scrollStyle, 'scroll-style-border-radius': s_scrollStyle}" class="v-show-content-html"
@@ -91,8 +91,6 @@
 // import tomarkdown from './lib/core/to-markdown.js'
 import {autoTextarea} from 'auto-textarea'
 import {keydownListen} from './lib/core/keydown-listen.js'
-import hljsCss from './lib/core/hljs/lang.hljs.css.js'
-import hljsLangs from './lib/core/hljs/lang.hljs.js'
 import {
     fullscreenchange,
    /* windowResize, */
@@ -107,23 +105,18 @@ import {
     removeLine,
     insertCodeBlock,
     loadLink,
-    loadScript,
     ImagePreviewListener
 } from './lib/core/extra-function.js'
-import {p_ObjectCopy_DEEP, stopEvent} from './lib/util.js'
+import {stopEvent} from './lib/util.js'
 import {toolbar_left_click, toolbar_left_addlink} from './lib/toolbar_left_click.js'
 import {toolbar_right_click} from './lib/toolbar_right_click.js'
 import {CONFIG} from './lib/config.js'
-import hljs from './lib/core/highlight.js'
-import markdown from './lib/mixins/markdown.js'
+import renderMarkdownHtml from './lib/markdown/markdown'
 
 import md_toolbar_left from './components/md-toolbar-left.vue'
 import md_toolbar_right from './components/md-toolbar-right.vue'
 import "./lib/font/css/fontello.css"
-import './lib/css/md.css'
-const xss = require('xss');
 export default {
-    mixins: [markdown],
     props: {
         scrollStyle: {  // 是否渲染滚动条样式(webkit)
             type: Boolean,
@@ -282,30 +275,6 @@ export default {
             currentTimeout: '',
             d_image_file: [],
             d_preview_imgsrc: null, // 图片预览地址
-            s_external_link: {
-                markdown_css: function() {
-                    return 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.9.0/github-markdown.min.css';
-                },
-                hljs_js: function() {
-                    return 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js';
-                },
-                hljs_lang: function(lang) {
-                    return 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/' + lang + '.min.js';
-                },
-                hljs_css: function(css) {
-                    if (hljsCss[css]) {
-                        return 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/' + css + '.min.css';
-                    }
-                    return '';
-                },
-                katex_js: function() {
-                    return 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js';
-                },
-                katex_css: function() {
-                    return 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css';
-                }
-            },
-            p_external_link: {},
             textarea_selectionEnd: 0,
             textarea_selectionEnds: [0]
         };
@@ -314,7 +283,6 @@ export default {
         var $vm = this;
         // 初始化语言
         this.initLanguage();
-        this.initExternalFuc();
         this.$nextTick(() => {
             // 初始化Textarea编辑开关
             $vm.editableTextarea();
@@ -342,58 +310,11 @@ export default {
         this.d_value = this.value || "";
         // 将help添加到末尾
         document.body.appendChild(this.$refs.help);
-        this.loadExternalLink('markdown_css', 'css');
-        this.loadExternalLink('katex_css', 'css')
-        this.loadExternalLink('katex_js', 'js', function() {
-            $vm.iRender(true);
-        })
-        this.loadExternalLink('hljs_js', 'js', function() {
-            $vm.iRender(true);
-        })
-
-        if (!(typeof $vm.externalLink === 'object' && typeof $vm.externalLink['markdown_css'] === 'function')) {
-            // 没有外部文件要来接管markdown样式，可以更改markdown样式。
-            $vm.codeStyleChange($vm.codeStyle, true)
-        }
     },
     beforeDestroy() {
         document.body.removeChild(this.$refs.help);
     },
-    getMarkdownIt() {
-        return this.mixins[0].data().markdownIt
-    },
     methods: {
-        loadExternalLink(name, type, callback) {
-            if (typeof this.p_external_link[name] !== 'function') {
-                if (this.p_external_link[name] !== false) {
-                    console.error('external_link.' + name, 'is not a function, if you want to disabled this error log, set external_link.' + name, 'to function or false');
-                }
-                return;
-            }
-            var _obj = {
-                'css': loadLink,
-                'js': loadScript
-            };
-            if (_obj.hasOwnProperty(type)) {
-                _obj[type](this.p_external_link[name](), callback);
-            }
-        },
-        initExternalFuc() {
-            var $vm = this;
-            var _external_ = ['markdown_css', 'hljs_js', 'hljs_css', 'hljs_lang', 'katex_js', 'katex_css'];
-            var _type_ = typeof $vm.externalLink;
-            var _is_object = (_type_ === 'object');
-            var _is_boolean = (_type_ === 'boolean');
-            for (var i = 0; i < _external_.length; i++) {
-                if ((_is_boolean && !$vm.externalLink) || (_is_object && $vm.externalLink[_external_[i]] === false)) {
-                    $vm.p_external_link[_external_[i]] = false;
-                } else if (_is_object && typeof $vm.externalLink[_external_[i]] === 'function') {
-                    $vm.p_external_link[_external_[i]] = $vm.externalLink[_external_[i]];
-                } else {
-                    $vm.p_external_link[_external_[i]] = $vm.s_external_link[_external_[i]];
-                }
-            }
-        },
         textAreaFocus() {
             this.$refs.vNoteTextarea.$refs.vTextarea.focus();
         },
@@ -434,7 +355,7 @@ export default {
             // TODO 跳转到图片位置
         },
         $imgDel(file) {
-            this.markdownIt.image_del(file[1]);
+            // this.markdownIt.image_del(file[1]);
             // 删除所有markdown中的图片
             let fileReg = file[0]
             let reg = new RegExp(`\\!\\[${file[1]._name}\\]\\(${fileReg}\\)`, "g")
@@ -452,7 +373,7 @@ export default {
             }
             this.__oFReader = new FileReader();
             this.__oFReader.onload = function (oFREvent) {
-                $vm.markdownIt.image_add(pos, oFREvent.target.result);
+                // $vm.markdownIt.image_add(pos, oFREvent.target.result);
                 $file.miniurl = oFREvent.target.result;
                 if (isinsert === true) {
                     // 去除特殊字符
@@ -478,7 +399,7 @@ export default {
         },
         $imgUpdateByUrl(pos, url) {
             var $vm = this;
-            this.markdownIt.image_add(pos, url);
+            // this.markdownIt.image_add(pos, url);
             this.$nextTick(function () {
                 $vm.d_render = this.markdownIt.render(this.d_value);
             })
@@ -671,6 +592,10 @@ export default {
         $emptyHistory() {
             this.d_history = [this.d_value] // 编辑记录
             this.d_history_index = 0 // 编辑记录索引
+        },
+        $render(src, func) {
+            const md = renderMarkdownHtml(src, true);
+            func(md);
         }
     },
     watch: {
@@ -726,10 +651,13 @@ export default {
     }
 };
 </script>
+
 <style lang="stylus" rel="stylesheet/stylus">
     @import "lib/css/scroll.styl"
     @import "lib/css/mavon-editor.styl"
 </style>
+<style src="./lib/css/md.css"></style>
+<style src="./lib/css/github-markdown.css"></style>
 <style lang="css" scoped>
     .auto-textarea-wrapper {
         height: 100%;
