@@ -72,7 +72,6 @@ function renderMarkdown(
         inlineRenderer: (code) => addMathPlaceholder(code, false),
         blockRenderer: (code) => addMathPlaceholder(code, true)
     });
-    renderer.use(MarkdownItMergeCells);
     renderer.use(MarkdonwItIns);
     renderer.use(MarkdonwItSub);
     renderer.use(MarkdonwItSup);
