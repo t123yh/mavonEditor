@@ -4,11 +4,6 @@ Markdown 语法简介
 =============
 > [语法详解](http://commonmark.org/help/)
 
-## **目录**
-```
-@[toc](目录)
-```
-
 ## **粗体**
 ```
 **粗体**
@@ -89,21 +84,18 @@ _斜体_
 ![图片描述](http://www.image.com)
 ```
 ## 代码段落
-\``` type
-
+\```type
 代码段落
-
 \```
 
-\` 代码块 \`
-
-```c++
+```clike
 int main()
 {
     printf("hello world!");
 }
 ```
-`code`
+`\` 代码块 \``: `code`
+
 ## 表格(table)
 ```
 | 标题1 | 标题2 | 标题3 |
@@ -115,32 +107,25 @@ int main()
 | :--  | :--: | ----: |
 | 左对齐 | 居中 | 右对齐 |
 | ---------------------- | ------------- | ----------------- |
-## 脚注(footnote)
+
+## 表情 (emoji)
+
+可以参考 [https://www.webpagefx.com/tools/emoji-cheat-sheet/](https://www.webpagefx.com/tools/emoji-cheat-sheet/) 的格式来使用 emoji 表情。
+
 ```
-hello[^hello]
+:laughing: :blush: :smiley: :)
 ```
+:laughing::blush::smiley: :)
 
-见底部脚注[^hello]
+## LaTeX 公式
 
-[^hello]: 一个注脚
+在编辑器中，使用 `$` 符号，我们可以使用 $\LaTeX$ 语法来编写数学公式。
 
-## 表情(emoji)
-[参考网站: https://www.webpagefx.com/tools/emoji-cheat-sheet/](https://www.webpagefx.com/tools/emoji-cheat-sheet/)
-```
-:laughing:
-:blush:
-:smiley:
-:)
-...
-```
-:laughing::blush::smiley::)
+例如，` $\sum_{i=1}^n a_i=0$ ` 渲染为 $\sum_{i=1}^n a_i=0$。
 
-## $\KaTeX$公式
+如需整行居中显示公式，请使用 `$$`。
 
-我们可以渲染公式例如：$x_i + y_i = z_i$和$\sum_{i=1}^n a_i=0$
-我们也可以单行渲染
-$$\sum_{i=1}^n a_i=0$$
-具体可参照[katex文档](http://www.intmath.com/cg5/katex-mathjax-comparison.php)和[katex支持的函数](https://github.com/Khan/KaTeX/wiki/Function-Support-in-KaTeX)以及[latex文档](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference)
+公式渲染是由 [MathJax](https://www.mathjax.org/) 驱动的。
 
 ## 布局
 
@@ -200,4 +185,3 @@ HTML 规范由 W3C 维护
 *[W3C]:  World Wide Web Consortium
 HTML 规范由 W3C 维护
 ```
-
