@@ -11,6 +11,8 @@ import MarkdownItMark from "markdown-it-mark";
 import sanitize from './sanitize'
 import renderMath from './mathjax'
 import highlight from './codeHighlighter'
+import MarkdownItEmoji from 'markdown-it-emoji'
+
 
 // [result, highlightPlaceholders, mathPlaceholders, findPlaceholderElement]
 function renderMarkdown(
@@ -79,6 +81,7 @@ function renderMarkdown(
     renderer.use(MarkdonwItContainer, "hljs-left");
     renderer.use(MarkdonwItContainer, "hljs-right");
     renderer.use(MarkdonwItContainer, "hljs-center");
+    renderer.use(MarkdownItEmoji);
 
     if (onPatchRenderer) onPatchRenderer(renderer);
 

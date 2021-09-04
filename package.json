@@ -100,6 +100,7 @@
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-dev-server": "^2.11.5",
     "webpack-md5-hash": "^0.0.5",
-    "xss": "^1.0.9"
+    "xss": "^1.0.9",
+    "markdown-it-emoji": "^2.0.0"
   }
 }
