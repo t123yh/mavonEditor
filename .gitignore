@@ -2,7 +2,6 @@
 /.idea/*
 npm-debug.log
 git-debug.log
-package-lock.json
 .idea/
 .DS_Store
 .ftpconfig
