@@ -29,7 +29,7 @@
               <button @click="imgdelete">delete</button>
             </div>
             <mavon-editor ref=md :subfield="subfield" :toolbarsFlag="toolbarsFlag" :editable="editable"
-                          :language="d_language" @change="change" @save="saveone" :ishljs="true" class="item-editor" v-model="help1"
+                          :language="d_language" @change="change" @save="saveone" :ishljs="true" class="item-editor"
                           :autofocus="autofocus"
                           :shortCut="true"
                           :externalLink="external_link"
@@ -63,8 +63,7 @@
             <h2 class="item-header">
                 {{d_words.customize_setting}}
             </h2>
-            <mavon-editor :language="d_language" @save="savetwo" :toolbars="toolbars" class="item-editor"
-                          v-model="help2"></mavon-editor>
+            <mavon-editor :language="d_language" @save="savetwo" :toolbars="toolbars" class="item-editor"></mavon-editor>
         </div>
         <div class="item">
       <span style="display: block;margin: 30px 0 15px 0;color: #1e6bb8" class="">
@@ -88,8 +87,6 @@
         data () {
             return {
                 d_language: 'zh-CN',
-                help1: '',
-                help2: '',
                 d_words: {},
                 screen_phone: false,
                 toolbars: {
@@ -247,8 +244,6 @@
             },
             initLanguage() {
                 this.d_words = CONFIG[`words_${this.d_language}`]
-                this.help1 = CONFIG[`help_${this.d_language}`]
-                this.help2 = CONFIG[`help_${this.d_language}`]
             },
             $subfieldtoggle(flag , value) {
             },

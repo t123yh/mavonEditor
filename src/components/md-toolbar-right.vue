@@ -23,18 +23,12 @@
                 :title="`${d_words.tl_read} (F11)`"></button>
         <button type="button" v-if="toolbars.subfield" @click="$clicks('subfield')" class="op-icon fa fa-mavon-columns" aria-hidden="true"
                 :class = "{'selected': s_subfield}" :title="`${s_subfield ? d_words.tl_single_column : d_words.tl_double_column} (F12)`"></button>
-        <span
-                v-if=" toolbars.help && toolbars.htmlcode && toolbars.readmodel && toolbars.fullscreen && toolbars.subfield && toolbars.navigation"
-                class="op-icon-divider"></span>
         <button type="button" v-if="toolbars.htmlcode" @click="$clicks('html')" v-show="!s_html_code" class="op-icon fa fa-mavon-code"
                 :title="d_words.tl_html_on"
                 aria-hidden="true"></button>
         <button type="button" v-if="toolbars.htmlcode" @click="$clicks('html')" v-show="s_html_code"
                 class="op-icon fa fa-mavon-code selected"
                 :title="d_words.tl_html_off" aria-hidden="true"></button>
-        <button type="button"  v-if="toolbars.help" @click="$clicks('help')" class="op-icon fa fa-mavon-question-circle"
-                 style="font-size: 17px;padding: 5px 6px 5px 3px"
-                 :title="d_words.tl_help" aria-hidden="true"></button>
         <slot name="right-toolbar-after" />
       </div>
 </template>

@@ -61,18 +61,6 @@
             </transition>
 
         </div>
-        <!--帮助文档-->
-        <transition name="fade">
-            <div ref="help">
-                <div @click.self="toolbar_right_click('help')" class="v-note-help-wrapper" v-if="s_help">
-                    <div class="v-note-help-content markdown-body" :class="{'shadow': boxShadow}">
-                        <i @click.stop.prevent="toolbar_right_click('help')" class="fa fa-mavon-times"
-                           aria-hidden="true"></i>
-                        <div class="scroll-style v-note-help-show" v-html="d_help"></div>
-                    </div>
-                </div>
-            </div>
-        </transition>
         <!-- 预览图片 -->
         <transition name="fade">
             <div @click="d_preview_imgsrc=null" class="v-note-img-wrapper" v-if="d_preview_imgsrc">
@@ -153,10 +141,6 @@ export default {
         boxShadowStyle: { // 阴影样式
             type: String,
             default: '0 2px 12px 0 rgba(0, 0, 0, 0.1)'
-        },
-        help: {
-            type: String,
-            default: null
         },
         value: { // 初始 value
             type: String,
@@ -253,9 +237,7 @@ export default {
                 return default_open_ === 'preview' ? true : false;
             })(), // props true 展示编辑 false展示预览
             s_fullScreen: false,// 全屏编辑标志
-            s_help: false,// markdown帮助
             s_html_code: false,// 分栏情况下查看html
-            d_help: null,
             d_words: null,
             edit_scroll_height: -1,
             s_readmodel: false,
@@ -302,11 +284,8 @@ export default {
         // fullscreen事件
         fullscreenchange(this);
         this.d_value = this.value || "";
-        // 将help添加到末尾
-        document.body.appendChild(this.$refs.help);
     },
     beforeDestroy() {
-        document.body.removeChild(this.$refs.help);
     },
     methods: {
         textAreaFocus() {
@@ -457,10 +436,6 @@ export default {
         htmlcode(status, val) {
             this.$emit('htmlCode', status, val)
         },
-        // 打开 , 关闭 help触发 （status , val）
-        helptoggle(status, val) {
-            this.$emit('helpToggle', status, val)
-        },
         // 监听ctrl + s
         save(val, render) {
             this.$emit('save', val, render)
@@ -528,9 +503,6 @@ export default {
         initLanguage() {
             let lang = CONFIG.langList.indexOf(this.language) >= 0 ? this.language : 'zh-CN';
             var $vm = this;
-            $vm.$render(CONFIG[`help_${lang}`], function(res) {
-                $vm.d_help = res;
-            })
             this.d_words = CONFIG[`words_${lang}`];
         },
         // 编辑开关
