@@ -1,6 +1,6 @@
 {
   "name": "novam-editor",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Non-sucking Vue markdown editor",
   "main": "dist/mavon-editor.js",
   "types": "./mavon-editor.d.ts",
