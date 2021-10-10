@@ -1,6 +1,6 @@
 {
   "name": "novam-editor",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Non-sucking Vue markdown editor",
   "main": "dist/mavon-editor.js",
   "types": "./mavon-editor.d.ts",
@@ -87,6 +87,7 @@
     "postcss-selector-matches": "^2.0.0",
     "postcss-selector-not": "^2.0.0",
     "prismjs": "^1.23.0",
+    "highlight.js": "^11.2.0",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.17.0",
     "stylus": "^0.54.5",

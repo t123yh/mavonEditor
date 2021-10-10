@@ -8,3 +8,5 @@ git-debug.log
 *.swp
 /tests/unit/coverage/*
 /dist/*
+
+/vendor/

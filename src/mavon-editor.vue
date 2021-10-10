@@ -101,6 +101,7 @@ import {toolbar_right_click} from './lib/toolbar_right_click.js'
 import {CONFIG} from './lib/config.js'
 import {renderMarkdownHtml} from './lib/markdown/markdown'
 import "./lib/font/css/fontello.css"
+import 'highlight.js/styles/idea.css'
 
 import md_toolbar_left from './components/md-toolbar-left.vue'
 import md_toolbar_right from './components/md-toolbar-right.vue'
